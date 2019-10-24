@@ -1,6 +1,24 @@
 import React, {useState, Fragment} from 'react';
 
 function Formulario() {
+
+  const [cita, guardarCita] = useState({
+    mascota : '',
+    propietario : '',
+    fecha : '',
+    hora : '',
+    sintomas : ''
+  });
+
+  const handleChange = e => {
+    guardarCita({
+      ...cita,
+      [e.target.name] : e.target.value
+    });
+  };
+
+  console.log(cita);
+
   return(
     <Fragment>
       <h2>Crear Cita</h2>
@@ -12,6 +30,7 @@ function Formulario() {
           name="mascota"
           className="u-full-width"
           placeholder="Nombre Mascota"
+          onChange={handleChange}
         />
 
         <label>Nombre Dueño</label>
@@ -53,7 +72,7 @@ function App() {
   //useState retorna 2 funciones
   // state actual = this.state; // citas
   // función que actualiza el state = this.setState(); // guardarCita
-  const [citas, guardarCita ] = useState([]);
+  const [citas, guardarCitas] = useState([]);
 
   return (
     <Fragment>
@@ -62,9 +81,9 @@ function App() {
         <div className="one-half column">
           <Formulario/>
         </div>
-        {/* <div className="one-half column">
+        <div className="one-half column">
 
-        </div> */}
+        </div>
      </div>
      </Fragment >
   )
