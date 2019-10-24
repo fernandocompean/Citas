@@ -39,6 +39,7 @@ function Formulario() {
           name="propietario"
           className="u-full-width"
           placeholder="Nombre Dueño de la Mascota"
+          onChange={handleChange}
         />
 
         <label>Fecha</label>
@@ -46,6 +47,7 @@ function Formulario() {
           type="date"
           className="u-full-width"
           name="fecha"
+          onChange={handleChange}
         />
 
         <label>Hora</label>
@@ -53,12 +55,14 @@ function Formulario() {
           type="time"
           className="u-full-width"
           name="hora"
+          onChange={handleChange}
         />
 
         <label>Sintomas</label>
         <textarea
           className="u-full-width"
           name="sintomas"
+          onChange={handleChange}
         ></textarea>
 
         <button type="submit" className="button-primary u-full-width">Agregar</button>
