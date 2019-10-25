@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 
 function Cita({ cita, index, eliminarCita}) {
 
@@ -47,7 +47,6 @@ function Formulario({crearCita}) {
     crearCita(cita);
     //reiniciar el state (form)
     actualizarCita(stateInicial);
-    console.log(cita);
   };
 
   return(
@@ -108,10 +107,16 @@ function Formulario({crearCita}) {
 }
 
 function App() {
+  // cargar las citas de localStorage como state inicial
+  let citasIniciales = JSON.parse(localStorage.getItem('citas'));
+
+  if (!citasIniciales) {
+    citasIniciales = [];
+  } 
   //useState retorna 2 funciones
   // state actual = this.state; // citas
   // función que actualiza el state = this.setState(); // guardarCitas
-  const [citas, guardarCitas] = useState([]);
+  const [citas, guardarCitas] = useState(citasIniciales);
 
   //agregar las nuevas citas al state
   const crearCita = cita => {
@@ -128,6 +133,18 @@ function App() {
     nuevasCitas.splice(index, 1);
     guardarCitas(nuevasCitas);
   }
+
+  useEffect(
+    () => {
+      let citasIniciales = JSON.parse(localStorage.getItem('citas'));
+
+      if(citasIniciales) {
+        localStorage.setItem('citas', JSON.stringify(citas));
+      } else{
+        localStorage.setItem('citas', JSON.stringify([]));
+      }
+    }
+  )
 
   const mensaje = Object.keys(citas).length === 0 ? 'No hay citas' : 'Administra tus citas aquí';
 
