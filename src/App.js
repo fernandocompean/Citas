@@ -15,28 +15,30 @@ function Cita({cita}) {
 
 function Formulario({ crearCita}) {
 
-  const [cita, enviarCita] = useState({
-    mascota : '',
-    propietario : '',
-    fecha : '',
-    hora : '',
-    sintomas : ''
-  });
+  const stateInicial = {
+    mascota: '',
+    propietario: '',
+    fecha: '',
+    hora: '',
+    sintomas: ''
+  }
 
-  const handleChange = e => {
-    enviarCita({
+  const [cita, actualizarCita] = useState(stateInicial);
+
+  const actualizarState = e => {
+    actualizarCita({
       ...cita,
       [e.target.name] : e.target.value
     });
   };
 
-  const handleSubmit = e => {
+  const enviarCita = e => {
     e.preventDefault();
 
     //pasar la cita hacia el componente principal
     crearCita(cita);
     //reiniciar el state (form)
-    
+    actualizarCita(stateInicial);
     console.log(cita);
   };
 
@@ -44,14 +46,15 @@ function Formulario({ crearCita}) {
     <Fragment>
       <h2>Crear Cita</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={enviarCita}>
         <label>Nombre Mascota</label>
         <input
           type="text"
           name="mascota"
           className="u-full-width"
           placeholder="Nombre Mascota"
-          onChange={handleChange}
+          onChange={actualizarState}
+          value={cita.mascota}
         />
 
         <label>Nombre Dueño</label>
@@ -60,7 +63,8 @@ function Formulario({ crearCita}) {
           name="propietario"
           className="u-full-width"
           placeholder="Nombre Dueño de la Mascota"
-          onChange={handleChange}
+          onChange={actualizarState}
+          value={cita.propietario}
         />
 
         <label>Fecha</label>
@@ -68,7 +72,8 @@ function Formulario({ crearCita}) {
           type="date"
           className="u-full-width"
           name="fecha"
-          onChange={handleChange}
+          onChange={actualizarState}
+          value={cita.fecha}
         />
 
         <label>Hora</label>
@@ -76,14 +81,16 @@ function Formulario({ crearCita}) {
           type="time"
           className="u-full-width"
           name="hora"
-          onChange={handleChange}
+          onChange={actualizarState}
+          value={cita.hora}
         />
 
         <label>Sintomas</label>
         <textarea
           className="u-full-width"
           name="sintomas"
-          onChange={handleChange}
+          onChange={actualizarState}
+          value={cita.sintomas}
         ></textarea>
 
         <button type="submit" className="button-primary u-full-width">Agregar</button>
