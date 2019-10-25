@@ -1,19 +1,24 @@
 import React, {useState, Fragment} from 'react';
 
-function Cita({cita}) {
+function Cita({ cita, index, eliminarCita}) {
+
   return(
+
+
     <div className="cita">
       <p>Mascota: <span>{cita.mascota}</span></p>
       <p>Dueño: <span>{cita.propietario}</span></p>
       <p>Fecha: <span>{cita.fecha}</span></p>
       <p>Hora: <span>{cita.hora}</span></p>
       <p>Sintomas: <span>{cita.sintomas}</span></p>
+      <button onClick={() => eliminarCita(index)}
+       type="button" className="button eliminar u-full-width">Eliminar X</button>
     </div>
   )
 }
 
 
-function Formulario({ crearCita}) {
+function Formulario({crearCita}) {
 
   const stateInicial = {
     mascota: '',
@@ -23,8 +28,11 @@ function Formulario({ crearCita}) {
     sintomas: ''
   }
 
+  // cita = state
+  //actualizarCita = fn para cambiar el state (setState)
   const [cita, actualizarCita] = useState(stateInicial);
 
+  // actualizar state
   const actualizarState = e => {
     actualizarCita({
       ...cita,
@@ -114,6 +122,15 @@ function App() {
     
   }
 
+  //elimina las citas del state
+  const eliminarCita = index => {
+    const nuevasCitas = [...citas];
+    nuevasCitas.splice(index, 1);
+    guardarCitas(nuevasCitas);
+  }
+
+  const mensaje = Object.keys(citas).length === 0 ? 'No hay citas' : 'Administra tus citas aquí';
+
   return (
     <Fragment>
       <h1>Administrador de pacientes</h1>
@@ -124,11 +141,13 @@ function App() {
           />
         </div>
         <div className="one-half column">
+          <h2>{mensaje}</h2>
           {citas.map((cita, index) => (
             <Cita
               key={index}
               index={index}
               cita={cita}
+              eliminarCita={eliminarCita}
             />
           ))}
         </div>
